@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, InjectionToken, OnDestroy, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { CryptoService } from '../../core/services/crypto.service';
 import { CryptoPrice, CryptoSymbol, WorkerOutputData } from '../../core/models/crypto.models';
@@ -11,6 +12,7 @@ export const WORKER_FACTORY = new InjectionToken<() => Worker>('WORKER_FACTORY',
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+  imports: [CryptoCardComponent, DatePipe],
   imports: [CryptoCardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
