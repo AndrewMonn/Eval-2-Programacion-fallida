@@ -13,6 +13,7 @@ export const WORKER_FACTORY = new InjectionToken<() => Worker>('WORKER_FACTORY',
   selector: 'app-dashboard',
   standalone: true,
   imports: [CryptoCardComponent, DatePipe],
+  imports: [CryptoCardComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
