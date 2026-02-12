@@ -1,0 +1,41 @@
+:root {
+  --color-bg: #1e2026;
+  --color-card: #2b3139;
+  --color-accent: #fcd535;
+  --color-text: #eaecef;
+  --color-up: #0ecb81;
+  --color-down: #f6465d;
+  --font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.flash-green {
+  animation: flash-green 450ms ease;
+}
+
+.flash-red {
+  animation: flash-red 450ms ease;
+}
+
+@keyframes flash-green {
+  0% { background-color: rgba(14, 203, 129, 0.4); }
+  100% { background-color: transparent; }
+}
+
+@keyframes flash-red {
+  0% { background-color: rgba(246, 70, 93, 0.4); }
+  100% { background-color: transparent; }
+}
