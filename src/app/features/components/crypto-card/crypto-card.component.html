@@ -1,0 +1,30 @@
+<article class="crypto-card" [class.crypto-card--alert]="crypto().alert.isTriggered">
+  <header class="crypto-card__header">
+    <h3 class="crypto-card__symbol">{{ crypto().symbol }}</h3>
+    <span class="crypto-card__name">{{ crypto().displayName }}</span>
+  </header>
+
+  <div class="crypto-card__price" [appHighlightChange]="crypto().price">
+    {{ crypto().price | number:'1.2-6' }} USDT
+  </div>
+
+  <div class="crypto-card__metrics">
+    <span [class.up]="crypto().changePercent >= 0" [class.down]="crypto().changePercent < 0">
+      {{ crypto().changePercent / 100 | percent:'1.2-2' }}
+    </span>
+    <span>SMA: {{ sma() | number:'1.2-4' }}</span>
+    <span>σ: {{ volatility() | number:'1.2-4' }}</span>
+  </div>
+
+  <label class="crypto-card__alert">
+    <span>Alerta objetivo</span>
+    <input
+      type="number"
+      class="crypto-card__input"
+      [value]="crypto().alert.targetPrice"
+      (change)="onTargetPriceChange($event)"
+      min="0"
+      step="0.0001"
+    />
+  </label>
+</article>
