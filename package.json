@@ -1,0 +1,14 @@
+{
+  "name": "tech-inventory-pro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo para Tech-Inventory Pro (MERN + Tailwind)",
+  "scripts": {
+    "start": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
