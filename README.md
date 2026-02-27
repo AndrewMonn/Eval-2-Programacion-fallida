@@ -98,3 +98,60 @@ Base URL: `http://localhost:5000/api/productos`
 
 - El formulario de productos solicita los IDs de `categoria` y `proveedor` para crear/editar registros.
 - Asegúrate de ejecutar el seed antes de usar el CRUD para tener datos relacionados válidos.
+
+
+## Solución al error común de conexión
+
+Si ves el error:
+
+```
+The `uri` parameter to `openUri()` must be a string, got "undefined"
+```
+
+significa que **`MONGODB_URI` no fue cargada**. Verifica lo siguiente:
+
+1. Ejecutaste `cp server/.env.example server/.env`.
+2. En `server/.env` existe la variable `MONGODB_URI` (sin comillas).
+3. Reemplazaste `<db_password>` por la contraseña real del usuario `andrewmonn_dev`.
+4. Estás iniciando desde la raíz con `npm start` o el backend con `npm run dev --prefix server`.
+
+Ejemplo válido en `server/.env`:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://andrewmonn_dev:TU_PASSWORD@cluster-andrew.dl98kgx.mongodb.net/techinventory?retryWrites=true&w=majority&appName=Cluster-Andrew
+```
+
+
+
+## Solución para `querySrv ECONNREFUSED _mongodb._tcp...`
+
+Si ya configuraste usuario/contraseña y ahora aparece:
+
+```
+Error conectando a MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster-andrew.dl98kgx...
+```
+
+el problema suele ser de **DNS/red** (tu entorno no puede resolver registros SRV de `mongodb+srv`).
+
+### Opción A (recomendada): usar fallback directo
+
+1. Entra a MongoDB Atlas → **Connect** → **Drivers**.
+2. Copia la cadena **Standard connection string (mongodb://...)** (no SRV).
+3. Pégala en `server/.env` como `MONGODB_URI_DIRECT`.
+
+Ejemplo:
+
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://andrewmonn_dev:TU_PASSWORD@cluster-andrew.dl98kgx.mongodb.net/techinventory?retryWrites=true&w=majority&appName=Cluster-Andrew
+MONGODB_URI_DIRECT=mongodb://host1:27017,host2:27017,host3:27017/techinventory?replicaSet=atlas-xxxx-shard-0&ssl=true&authSource=admin&retryWrites=true&w=majority
+```
+
+La app intentará primero `MONGODB_URI` (SRV) y, si falla por DNS, usará automáticamente `MONGODB_URI_DIRECT`.
+
+### Opción B: ajustar red
+
+- Cambia DNS local a `8.8.8.8` / `1.1.1.1`.
+- Si estás en red corporativa, revisa firewall/proxy que bloquee `_mongodb._tcp`.
+- Verifica que en Atlas esté permitido tu IP en **Network Access**.
